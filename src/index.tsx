@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './components/App/App';
+import HomePage from './components/HomePage/HomePage';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'jquery/dist/jquery.js';
 import 'popper.js/dist/popper.js';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
-import { MainMenu, MainMenuItem } from './components/Main Manu/MainMenu';
+import { MainMenu, MainMenuItem } from './components/MainManu/MainMenu';
+import { HashRouter, Route, Switch } from 'react-router-dom';
+import ContactPage from './components/ContactPage/ConatactPage';
+import UserLoginPage from './components/ContactPage/UserLoginPage/UserLoginPage';
 
 const menuItems = [
   new MainMenuItem("Home","/"),
@@ -19,7 +22,13 @@ const menuItems = [
 ReactDOM.render(
   <React.StrictMode>
     <MainMenu items = {menuItems}></MainMenu>
-    <App />
+    <HashRouter>
+      <Switch>
+        <Route exact path="/" component = { HomePage}/>
+        <Route exact path="/contact" component = { ContactPage}/>
+        <Route exact path="/user/login" component = { UserLoginPage}/>
+      </Switch>
+    </HashRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
