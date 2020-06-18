@@ -1,6 +1,6 @@
 import React from 'react';
 import './HomePage.css';
-import { Container, Card, Row, Col, Button } from 'react-bootstrap';
+import { Container, Card, Row, Col } from 'react-bootstrap';
 import { faListAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CategoryType from '../../types/CategoryType';
@@ -106,10 +106,9 @@ class HomePage extends React.Component {
         <Card>
           <Card.Body>
             <Card.Title as="p">{ category.name }</Card.Title>
-              <Link to={`/categoty/${ category.categoryId }`} className="btn btn-primary btn-block btn-small">
+              <Link to={`/category/${ category.categoryId }`} className="btn btn-primary btn-block btn-small">
                 Open category
               </Link>
-            <Button variant="primary"></Button>
           </Card.Body>
         </Card>
       </Col>

@@ -6,7 +6,7 @@ export default function api(
     method: 'get' | 'post' | 'patch' | 'delete',
     body: any | undefined
     ){
-        return new Promise<ApiResponse>((resolve, reject) =>{
+        return new Promise<ApiResponse>((resolve) =>{
             const requestData = {
                 method: method,
                 url: path,
@@ -81,7 +81,7 @@ async function responseHandler(res: AxiosResponse<any>,resolve: (value?: ApiResp
 
 function getToken(): string {
     const token = localStorage.getItem('api_token');
-    return 'Berer ' + token;
+    return 'Bearer ' + token;
 }
 
 export function saveToken(token:string){
@@ -94,11 +94,11 @@ function getRefreshToken(): string {
 }
 
 export function saveRefreshToken(token:string){
-    localStorage.setItem('api_token',token)
+    localStorage.setItem('api_refresh_token',token)
 }
 
 async function refreshToken():Promise<string | null>{
-        const path = '/auth/student/refresh';
+        const path = 'auth/student/refresh';
         const data = {
             token: getRefreshToken(),
         }
@@ -144,7 +144,7 @@ async function repeatRequest(requestData: AxiosRequestConfig,resolve: (value?: A
             const response: ApiResponse = {
                 status: 'error',
                 data: err,
-            }
+            };
             return resolve(response);
         });
 }

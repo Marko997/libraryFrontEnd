@@ -30,8 +30,8 @@ export default class UserLoginPage extends React.Component{
 
     private formInputChanged(event: React.ChangeEvent<HTMLInputElement>){
         const newState = Object.assign(this.state, {
-            [ event.target.id ]: event.target.value
-        })
+            [ event.target.id ]: event.target.value,
+        });
 
         this.setState(newState);
     }
@@ -72,7 +72,7 @@ export default class UserLoginPage extends React.Component{
                     return;
                 }
                 saveToken(res.data.token);
-                saveRefreshToken(res.data.saveRefreshTOken);
+                saveRefreshToken(res.data.refreshToken);
 
                 this.setLogginState(true);
             }
