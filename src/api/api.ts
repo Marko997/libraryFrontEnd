@@ -4,7 +4,7 @@ import { ApiConfig } from '../config/api.config';
 export default function api(
     path: string, 
     method: 'get' | 'post' | 'patch' | 'delete',
-    body: any | undefined
+    body: any | undefined,
     ){
         return new Promise<ApiResponse>((resolve) =>{
             const requestData = {
@@ -62,20 +62,12 @@ async function responseHandler(res: AxiosResponse<any>,resolve: (value?: ApiResp
         }
         return resolve(response);
     }
-    let response: ApiResponse;
-    if(res.data.statusCode < 0){
-         response = {
-            status: 'login',
-            data: null
-        };
-    }else {
-        response = {
+    const response: ApiResponse = {
         status: 'ok',
         data: res.data,
     };
-}
-        return resolve(response);
 
+    return resolve(response);
 
 }
 
@@ -84,19 +76,18 @@ function getToken(): string {
     return 'Bearer ' + token;
 }
 
-export function saveToken(token:string){
-    localStorage.setItem('api_token',token)
+export function saveToken( token: string) {
+    localStorage.setItem('api_token', token);
 }
 
 function getRefreshToken(): string {
     const token = localStorage.getItem('api_refresh_token');
-    return token+'';
+    return token + '';
 }
 
-export function saveRefreshToken(token:string){
-    localStorage.setItem('api_refresh_token',token)
+export function saveRefreshToken(token: string) {
+    localStorage.setItem('api_refresh_token', token);
 }
-
 async function refreshToken():Promise<string | null>{
         const path = 'auth/student/refresh';
         const data = {
@@ -113,32 +104,35 @@ async function refreshToken():Promise<string | null>{
                 
             },
         };
-        const refreshTokenResponse: { data: {token:string | undefined}} = await axios(refreshTokenRequestData);
+        const rtr: { data: { token: string | undefined } } = await axios(refreshTokenRequestData);
 
-        if(!refreshTokenResponse.data.token){
-            return null;
+        if (!rtr.data.token) {
+        return null;
         }
 
-        return refreshTokenResponse.data.token;
+        return rtr.data.token;
 
 }
 
-async function repeatRequest(requestData: AxiosRequestConfig,resolve: (value?: ApiResponse) => void){
+async function repeatRequest(requestData: AxiosRequestConfig,
+    resolve: (value?: ApiResponse) => void){
     axios(requestData)
         .then(res =>{
-            if(res.status ===401){
-                const response: ApiResponse = {
-                    status: 'login',
-                    data: null,
-                }
-                return resolve(response);
-            }
+            let response: ApiResponse;
 
-            const response: ApiResponse = {
-                status: 'ok',
-                data:res,
+        if (res.status === 401) {
+            response = {
+                status: 'login',
+                data: null,
             };
-            return resolve(response);
+        } else {
+            response = {
+                status: 'ok',
+                data: res.data,
+            };
+        }
+
+        return resolve(response);
         })
         .catch(err=>{
             const response: ApiResponse = {

@@ -21,7 +21,7 @@ interface CategoryPageState{
     category?: CategoryType;
     books?: BookType[];
     message: string;
-    filters?: {
+    filters: {
         keywords: string;
         order: "name asc" | "name desc";
     };
@@ -101,7 +101,7 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
 
                     <Row>
                         <Col xs="12" md="4" lg="3">
-                            {this.printFilters}
+                            {this.printFilters()}
                         </Col>
                         <Col xs="12" md="8" lg="9">
                             {this.showBooks()}
@@ -131,7 +131,7 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
         }));
     }
     private applyFilters(){
-        
+        this.getCategoryData();
     }
 
     private printFilters(){
@@ -141,13 +141,13 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
                     <Form.Label htmlFor="keywords">Search keywords</Form.Label>
                     <Form.Control type ="text" 
                     id="keywords" 
-                    value={this.state.filters?.keywords}
+                    value={this.state.filters.keywords}
                     onChange={(e)=>this.filterKeywordsChanged(e as any)}/>
                 </Form.Group>
                 <Form.Group>
                     <Form.Control as="select" 
                     id="sortOrder" 
-                    value={this.state.filters?.order}
+                    value={this.state.filters.order}
                     onChange={(e)=> this.filterOrderChanged(e as any)}>
                         <option value="name asc"> Sort by name - ascending</option>
                         <option value="name desc"> Sort by name - descending</option>
@@ -155,7 +155,7 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
                 </Form.Group>
 
                 <Form.Group>
-                    <Button variant="primary" onClick={ ()=>this.applyFilters()}>
+                    <Button variant="primary" block onClick={ ()=>this.applyFilters()}>
                         <FontAwesomeIcon icon={faSearch}/> Search
                     </Button>
                 </Form.Group>
@@ -235,12 +235,12 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
             if(res.status === 'error'){
                 return this.setMessage('Request error please try to refresh page!');
             }
-            if(res.data.statusCode === 0){
-                this.setMessage('');
-                this.setBooks([]);
-                return;
+            // if(res.data.statusCode === 0){
+            //     this.setMessage('');
+            //     this.setBooks([]);
+            //     return;
 
-            }
+            // }
 
             const categoryData: CategoryType = {
                 categoryId: res.data.categoryId,
@@ -250,25 +250,30 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
 
         });
 
-        const orderParts = this.state.filters?.order.split(' ');
-        const orderBy = orderParts[0];
+        const orderParts = this.state.filters.order.split(' ');
+        // const orderBy = orderParts[0];
         const orderDirection = orderParts[1].toUpperCase();
 
         api('api/book/search','post',{
             categoryId: Number(this.props.match.params.id),
             keywords: this.state.filters?.keywords,
             orderBy: "title",
-            orderDirection: "ASC",
+             orderDirection: orderDirection,
 
         })
         .then((res: ApiResponse) =>{
-            if(res.status ==="login"){
+            if(res.status ==='login'){
                 this.setLogginState(false);
             }
 
             if(res.status === 'error'){
                 return this.setMessage('Request error please try to refresh page!');
             }
+            // if (res.data.statusCode === 0) {
+            //     this.setMessage('');
+            //     this.setBooks([]);
+            //     return;
+            // }
 
             const books: BookType[]=
             res.data.map((book: BookDto)=>{

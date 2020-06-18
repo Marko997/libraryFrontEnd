@@ -44,9 +44,9 @@ export default class UserLoginPage extends React.Component{
 
     }
 
-    private setLogginState(isLogedIn: boolean){
+    private setLogginState(isLoggedIn: boolean){
         const newState = Object.assign(this.state, {
-            isLogedIn: isLogedIn,
+            isLoggedIn: isLoggedIn,
         });
         this.setState(newState);
     }
@@ -58,7 +58,7 @@ export default class UserLoginPage extends React.Component{
         }
         ).then((res: ApiResponse) => {
             if(res.status ==='error'){
-                console.log(res.data);
+                this.setErrorMessage('System error... Try again!');
                 return;
             }
             if(res.status ==='ok'){
@@ -87,7 +87,7 @@ export default class UserLoginPage extends React.Component{
             )
         }
 
-        return(
+        return(    
         <Container>
             <Col md={ { span:6, offset: 3 } }>
                 <Card>
