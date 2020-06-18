@@ -17,7 +17,7 @@ import CategoryPage from './components/CategoryPage/CategoryPage';
 const menuItems = [
   new MainMenuItem("Home","/"),
   new MainMenuItem("Contact","/contact/"),
-  new MainMenuItem("Log in", "/user/login"),
+  new MainMenuItem("Log in", "/student/login"),
 ];
 
 ReactDOM.render(
@@ -27,7 +27,7 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/" component = { HomePage }/>
         <Route exact path="/contact" component = { ContactPage }/>
-        <Route exact path="/user/login" component = { UserLoginPage }/>
+        <Route exact path="/student/login" component = { UserLoginPage }/>
         <Route exact path="/category/:id" component = { CategoryPage }/>
       </Switch>
     </HashRouter>
