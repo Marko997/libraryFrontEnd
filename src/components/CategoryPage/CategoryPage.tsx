@@ -4,9 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faListAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
 import CategoryType from "../../types/CategoryType";
 import BookType from "../../types/BookType";
-import { Redirect, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import api, { ApiResponse } from "../../api/api";
-import { ApiConfig } from "../../config/api.config";
+// import { ApiConfig } from "../../config/api.config";
+import SingleBookPreview from "../SingleBookPreview";
+import RoledMainManu from "../RoledMainMenu/RoledMainManu";
 
 interface CategoryPageProperites{
     match: {
@@ -23,7 +25,7 @@ interface CategoryPageState{
     message: string;
     filters: {
         keywords: string;
-        order: "name asc" | "name desc";
+        order: "title asc" | "title desc";
     };
 }
 
@@ -50,7 +52,7 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
             message: '',
             filters:{
                 keywords: '',
-                order: "name asc"
+                order: "title asc"
             }
          }; 
     }
@@ -92,6 +94,7 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
 
         return (
             <Container>
+                <RoledMainManu role="student"/>
             <Card>
                 <Card.Body>
                     <Card.Title>
@@ -149,8 +152,8 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
                     id="sortOrder" 
                     value={this.state.filters.order}
                     onChange={(e)=> this.filterOrderChanged(e as any)}>
-                        <option value="name asc"> Sort by name - ascending</option>
-                        <option value="name desc"> Sort by name - descending</option>
+                        <option value="title asc"> Sort by title - ascending</option>
+                        <option value="title desc"> Sort by title - descending</option>
                     </Form.Control>
                 </Form.Group>
 
@@ -189,29 +192,7 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
 
     private singleBook(book: BookType){
         return(
-            <Col lg="4" md="6" sm="6" xs="12">
-                <Card className="mb-3">
-                    <Card.Header>
-                        <img alt={book.title}
-                            src={ ApiConfig.PHOTO_PATH+'small/'+book.imageUrl}
-                            className="w-100"/>
-                    </Card.Header>
-                    <Card.Body>
-                        <Card.Title as ="p">
-                            <strong>{book.title}</strong>
-                        </Card.Title>
-                        <Card.Text>
-                            { book.excerpt }
-                        </Card.Text>
-
-                        <Link to={ `/book/${book.bookId}`}
-                            className="btn btn-primary btn-block btn-sm">
-                                 Open book page
-                        </Link>
-                    </Card.Body>
-                </Card>
-            </Col>
-        );
+            <SingleBookPreview book={book}/>)
     }
 
     componentDidMount(){
@@ -235,12 +216,12 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
             if(res.status === 'error'){
                 return this.setMessage('Request error please try to refresh page!');
             }
-            // if(res.data.statusCode === 0){
-            //     this.setMessage('');
-            //     this.setBooks([]);
-            //     return;
+            if(res.data.statusCode === 0){
+                this.setMessage('');
+                this.setBooks([]);
+                return; 
 
-            // }
+            }
 
             const categoryData: CategoryType = {
                 categoryId: res.data.categoryId,
@@ -251,14 +232,15 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
         });
 
         const orderParts = this.state.filters.order.split(' ');
-        // const orderBy = orderParts[0];
+        const orderBy = orderParts[0];
         const orderDirection = orderParts[1].toUpperCase();
 
         api('api/book/search','post',{
-            categoryId: Number(this.props.match.params.id),
             keywords: this.state.filters?.keywords,
-            orderBy: "title",
-             orderDirection: orderDirection,
+            categoryId: Number(this.props.match.params.id),
+            
+            orderBy: orderBy,
+            orderDirection: orderDirection,
 
         })
         .then((res: ApiResponse) =>{
@@ -269,11 +251,11 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
             if(res.status === 'error'){
                 return this.setMessage('Request error please try to refresh page!');
             }
-            // if (res.data.statusCode === 0) {
-            //     this.setMessage('');
-            //     this.setBooks([]);
-            //     return;
-            // }
+            if (res.data.statusCode === 0) {
+                this.setMessage('');
+                this.setBooks([]);
+                return;
+            }
 
             const books: BookType[]=
             res.data.map((book: BookDto)=>{

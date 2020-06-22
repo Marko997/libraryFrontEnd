@@ -8,26 +8,24 @@ import 'jquery/dist/jquery.js';
 import 'popper.js/dist/popper.js';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
-import { MainMenu, MainMenuItem } from './components/MainManu/MainMenu';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import ContactPage from './components/ContactPage/ConatactPage';
-import UserLoginPage from './components/ContactPage/UserLoginPage/UserLoginPage';
+import StudentLoginPage from './components/StudentLoginPage/StudentLoginPage';
+import LibrarianLoginPage from './components/LibrarianLoginPage/LibrarianLoginPage';
 import CategoryPage from './components/CategoryPage/CategoryPage';
+import LibrarianDashboard from './components/LibrarianDashboard/LibrarianDashboard';
 
-const menuItems = [
-  new MainMenuItem("Home","/"),
-  new MainMenuItem("Contact","/contact/"),
-  new MainMenuItem("Log in", "/student/login"),
-];
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <MainMenu items = {menuItems}></MainMenu>
     <HashRouter>
       <Switch>
         <Route exact path="/" component = { HomePage }/>
         <Route exact path="/contact" component = { ContactPage }/>
-        <Route exact path="/student/login" component = { UserLoginPage }/>
+        <Route exact path="/student/login" component = { StudentLoginPage }/>
+        <Route exact path="/librarian/login" component = { LibrarianLoginPage }/>
+        <Route exact path="/librarian/dashboard" component = { LibrarianDashboard }/>
         <Route exact path="/category/:id" component = { CategoryPage }/>
       </Switch>
     </HashRouter>
@@ -35,7 +33,4 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
