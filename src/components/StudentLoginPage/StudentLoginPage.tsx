@@ -5,7 +5,7 @@ import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import api, { ApiResponse, saveToken, saveRefreshToken } from '../../api/api';
 import { Redirect } from 'react-router-dom';
 import RoledMainManu from '../RoledMainMenu/RoledMainManu';
-// import RoledMainMenu from '../RoledMainMenu/RoledMainMenu';
+
 
 interface StudentLoginPageState {
     username: string;
@@ -59,7 +59,7 @@ export default class StudentLoginPage extends React.Component {
             {
                 username: this.state.username,
                 password: this.state.password,
-            }
+            },"student"
         )
         .then((res: ApiResponse) => {
             if (res.status === 'error') {

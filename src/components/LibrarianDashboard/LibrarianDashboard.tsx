@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Card } from 'react-bootstrap';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import api, {ApiResponse} from '../../api/api';
 import RoledMainManu from '../RoledMainMenu/RoledMainManu';
 
@@ -69,7 +69,13 @@ class LibrarianDashboard extends React.Component {
                     <Card.Title>
                         <FontAwesomeIcon icon={ faHome }/> Librarian Dashboard
                     </Card.Title>
-                    ...
+                    <ul>
+                        <li><Link to="/librarian/dashboard/category">Categories</Link></li>
+                        <li><Link to="/librarian/dashboard/author">Author</Link></li>
+                        <li><Link to="/librarian/dashboard/book">Book</Link></li>
+                        <li><Link to="/librarian/dashboard/loan">Loan</Link></li>
+
+                    </ul>
                 </Card.Body>
             </Card>
       </Container>

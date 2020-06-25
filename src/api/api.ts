@@ -7,7 +7,7 @@ export default function api(
     path: string,
     method: 'get' | 'post' | 'patch' | 'delete',
     body: any | undefined,
-    role: 'student' | 'librarian' = 'student',
+    role: 'student' | 'librarian'="student",
 ) {
     return new Promise<ApiResponse>((resolve) => {
         const requestData = {
@@ -17,6 +17,59 @@ export default function api(
             data: JSON.stringify(body),
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': getToken(role),
+            },
+        };
+
+        axios(requestData)
+        .then(res => responseHandler(res, resolve))
+        .catch(async err => {
+            if (err.response.status === 401) {
+                const newToken = await refreshToken(role);
+    
+                if (!newToken) {
+                    const response: ApiResponse = {
+                        status: 'login',
+                        data: null,
+                    };
+            
+                    return resolve(response);
+                }
+    
+                saveToken(role, newToken);
+    
+                requestData.headers['Authorization'] = getToken(role);
+    
+                return await repeatRequest(requestData, resolve);
+            }
+
+            const response: ApiResponse = {
+                status: 'error',
+                data: err
+            };
+
+            resolve(response);
+        });
+    });
+}
+
+export function apiFile(
+    path: string,
+    name: string,
+    file: File,
+    role: 'student' | 'librarian' = 'student',
+) {
+    return new Promise<ApiResponse>((resolve) => {
+        const formData = new FormData();
+        formData.append(name,file);
+
+        const requestData:AxiosRequestConfig = {
+            method: 'post',
+            url: path,
+            baseURL: ApiConfig.API_URL,
+            data: formData,
+            headers: {
+                'Content-Type': 'multipart/form-data',
                 'Authorization': getToken(role),
             },
         };
@@ -92,8 +145,8 @@ export function saveIdentity(role: 'student' | 'librarian', identity: string) {
     localStorage.setItem('api_identity' + role, identity);
 }
 export function getIdentity(role: 'student' | 'librarian'): string {
-    const token = localStorage.getItem('api_identity' + role);
-    return 'Bearer ' + token;
+    const identity = localStorage.getItem('api_identity' + role);
+    return identity + '';
 }
 
 function getRefreshToken(role: 'student' | 'librarian'): string {
@@ -106,10 +159,13 @@ export function saveRefreshToken(role: 'student' | 'librarian', token: string) {
 }
 
 async function refreshToken(role: 'student' | 'librarian'): Promise<string | null> {
-    const path = 'auth/' + role + '/refresh';
+    const path = '/auth/' + role + '/refresh';
     const data = {
         token: getRefreshToken(role),
+        
+        
     }
+    
 
     const refreshTokenRequestData: AxiosRequestConfig = {
         method: 'post',

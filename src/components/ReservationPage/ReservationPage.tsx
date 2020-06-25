@@ -28,7 +28,7 @@ export default class ReservationPage extends React.Component{
     }
 
     private makeReservation(){
-        api('/api/reservation/createFull','post',{})
+        api('/api/reservation/createFull','post',{},"student")
         .then((res:ApiResponse)=>{
             if(res.status === 'error'|| res.status ==='login'){
                 return;

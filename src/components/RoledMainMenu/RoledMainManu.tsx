@@ -24,6 +24,7 @@ export default class RoledMainManu extends React.Component<RoledMainManuProperti
         return [
             new MainMenuItem("Home","/"),
             new MainMenuItem("Contact","/contact/"),
+            new MainMenuItem("Loans","/loan/"),
             new MainMenuItem("Log out", "/student/logout"),
         ];
 

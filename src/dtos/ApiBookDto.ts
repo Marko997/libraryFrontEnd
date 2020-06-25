@@ -1,12 +1,12 @@
-export default class BookType {
-    bookId?: number;
-    title?: string;
-    excerpt?: string;
-    description?: string;
-    imageUrl?: string;
-    isbn?: string;
-    categoryId?: number;
-    status?:
+export default interface  ApiBookDto{
+    bookId: number;
+    title: string;
+    categoryId: number;
+    authorId: number;
+    excerpt: string;
+    description: string;
+    isbn: string;
+    status:
     | "rented"
     | "lost"
     | "destroyed"
@@ -14,18 +14,16 @@ export default class BookType {
     | "not-avaiable"
     | "reserved";
 
-    author?: {
+    author: {
         authorId: number;
         forename: string;
         surename: string;
     };
-    photos?: {
+    photos: {
         photoId: number;
         imagePath: string;
     }[];
-
-    category?:{
-
+    category:{
         name:string;
     }
 }

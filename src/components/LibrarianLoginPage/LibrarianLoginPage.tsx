@@ -5,7 +5,6 @@ import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import api, { ApiResponse, saveToken, saveRefreshToken, saveIdentity } from '../../api/api';
 import { Redirect } from 'react-router-dom';
 import RoledMainManu from '../RoledMainMenu/RoledMainManu';
-// import RoledMainMenu from '../RoledMainMenu/RoledMainMenu';
 
 interface LibrarianLoginPageState {
     username: string;
@@ -59,7 +58,7 @@ export default class LibrarianLoginPage extends React.Component {
             {
                 username: this.state.username,
                 password: this.state.password,
-            }
+            },"librarian"
         )
         .then((res: ApiResponse) => {
             if (res.status === 'error') {

@@ -9,15 +9,13 @@ import CategoryType from '../../types/CategoryType';
 import { Redirect, Link } from 'react-router-dom';
 import api, {ApiResponse} from '../../api/api';
 import RoledMainManu from '../RoledMainMenu/RoledMainManu';
+import ApiCategoryDto from '../../dtos/ApiCategoryDto';
 
 interface HomePageState {
     isUserLoggedIn: boolean;
     categories?: CategoryType[];
 }
-interface ApiCategoryDto{
-  categoryId: number;
-  name: string;
-}
+
 
 class HomePage extends React.Component {
     state: HomePageState;
@@ -31,16 +29,16 @@ class HomePage extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getCategories();
     }
 
-    componentWillUpdate() {
+    componentDidUpdate() {
         this.getCategories();
     }
 
     private getCategories() {
-      api('api/category', 'get',{})
+      api('api/category', 'get',{},"librarian"&&"student")
           .then((res: ApiResponse) => {
             if(res.status==="error" || res.status ==="login"){
               this.setLogginState(false);

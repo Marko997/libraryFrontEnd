@@ -207,7 +207,7 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
     }
 
     getCategoryData(){
-        api('api/category/'+this.props.match.params.id,'get',{})
+        api('api/category/'+this.props.match.params.id,'get',{},"librarian"&&"student")
         .then((res: ApiResponse) =>{
             if(res.status ==="login"){
                 this.setLogginState(false);
@@ -242,7 +242,7 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
             orderBy: orderBy,
             orderDirection: orderDirection,
 
-        })
+        },"librarian"&&"student")
         .then((res: ApiResponse) =>{
             if(res.status ==='login'){
                 this.setLogginState(false);
