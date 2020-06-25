@@ -14,6 +14,11 @@ import StudentLoginPage from './components/StudentLoginPage/StudentLoginPage';
 import LibrarianLoginPage from './components/LibrarianLoginPage/LibrarianLoginPage';
 import CategoryPage from './components/CategoryPage/CategoryPage';
 import LibrarianDashboard from './components/LibrarianDashboard/LibrarianDashboard';
+import LibrarianDashboardCategory from './components/LibrarianDashboardCategory/LibrarianDashboardCategory';
+import LibrarianDashboardAuthor from './components/LibrarianDashboardAuthor/LibrarianDashboardAuthor';
+import LibrarianDashboardLoan from './components/LibrarianDashboardLoan/LibrarianDashBoardLoan';
+import LibrarianDashboardBook from './components/LibrarianDashboardBook/LibrarianDashboardBook';
+import LibrarianDashboardPhoto from './components/LibrarianDashboardPhoto/LibrarianDashboardPhoto';
 
 
 
@@ -26,6 +31,11 @@ ReactDOM.render(
         <Route exact path="/student/login" component = { StudentLoginPage }/>
         <Route exact path="/librarian/login" component = { LibrarianLoginPage }/>
         <Route exact path="/librarian/dashboard" component = { LibrarianDashboard }/>
+        <Route exact path="/librarian/dashboard/category" component = { LibrarianDashboardCategory }/>
+        <Route exact path="/librarian/dashboard/author" component = { LibrarianDashboardAuthor }/>
+        <Route exact path="/librarian/dashboard/loan" component = { LibrarianDashboardLoan }/>
+        <Route exact path="/librarian/dashboard/book" component = { LibrarianDashboardBook }/>
+        <Route exact path="/librarian/dashboard/photo/:bId" component = { LibrarianDashboardPhoto }/>
         <Route exact path="/category/:id" component = { CategoryPage }/>
       </Switch>
     </HashRouter>
