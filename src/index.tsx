@@ -19,6 +19,10 @@ import LibrarianDashboardAuthor from './components/LibrarianDashboardAuthor/Libr
 import LibrarianDashboardLoan from './components/LibrarianDashboardLoan/LibrarianDashBoardLoan';
 import LibrarianDashboardBook from './components/LibrarianDashboardBook/LibrarianDashboardBook';
 import LibrarianDashboardPhoto from './components/LibrarianDashboardPhoto/LibrarianDashboardPhoto';
+import LoanPage from './components/LoanPage/LoanPage';
+import BookPage from './components/BookPage/BookPage';
+import LibrarianDashboardReservation from './components/LibrarianDashBoardReservation/LibrarianDashboardReservations';
+
 
 
 
@@ -28,6 +32,8 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/" component = { HomePage }/>
         <Route exact path="/contact" component = { ContactPage }/>
+        <Route exact path="/loan/" component = { LoanPage }/>
+        <Route exact path="/loan/:sId" component = { LoanPage }/>
         <Route exact path="/student/login" component = { StudentLoginPage }/>
         <Route exact path="/librarian/login" component = { LibrarianLoginPage }/>
         <Route exact path="/librarian/dashboard" component = { LibrarianDashboard }/>
@@ -35,8 +41,10 @@ ReactDOM.render(
         <Route exact path="/librarian/dashboard/author" component = { LibrarianDashboardAuthor }/>
         <Route exact path="/librarian/dashboard/loan" component = { LibrarianDashboardLoan }/>
         <Route exact path="/librarian/dashboard/book" component = { LibrarianDashboardBook }/>
+        <Route exact path="/librarian/dashboard/reservation" component = { LibrarianDashboardReservation }/>
         <Route exact path="/librarian/dashboard/photo/:bId" component = { LibrarianDashboardPhoto }/>
         <Route exact path="/category/:id" component = { CategoryPage }/>
+        <Route exact path="/book/:id" component = { BookPage }/>
       </Switch>
     </HashRouter>
   </React.StrictMode>,

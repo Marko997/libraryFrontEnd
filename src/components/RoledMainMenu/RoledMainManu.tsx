@@ -3,6 +3,7 @@ import { MainMenuItem, MainMenu } from '../MainManu/MainMenu';
 
 interface RoledMainManuProperties{
     role: 'student' | 'librarian' | 'visitor';
+
 }
 
 

@@ -2,14 +2,14 @@ import React from "react";
 import { Container, Card, Row, Col, Form, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faListAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
-import CategoryType from "../../types/CategoryType";
 import BookType from "../../types/BookType";
 import { Redirect } from "react-router-dom";
 import api, { ApiResponse } from "../../api/api";
+// import { ApiConfig } from "../../config/api.config";
 import SingleBookPreview from "../SingleBookPreview";
 import RoledMainManu from "../RoledMainMenu/RoledMainManu";
 
-interface CategoryPageProperites{
+interface BookPageProperites{
     match: {
         params: {
             id: number;
@@ -17,9 +17,9 @@ interface CategoryPageProperites{
     }
 }
 
-interface CategoryPageState{
+interface BookPageState{
     isStudentLoggedIn: boolean;
-    category?: CategoryType;
+    book?: BookType;
     books?: BookType[];
     message: string;
     filters: {
@@ -40,10 +40,10 @@ interface BookDto{
 
 }
 
-export default class CategoryPage extends React.Component<CategoryPageProperites>{
-    state: CategoryPageState;
+export default class BookPage extends React.Component<BookPageProperites>{
+    state: BookPageState;
 
-    constructor(props: Readonly<CategoryPageProperites>){
+    constructor(props: Readonly<BookPageProperites>){
         super(props);
 
         this.state = {
@@ -69,9 +69,9 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
         })
         this.setState(newState);
     }
-    private setCategoryData(category:CategoryType){
+    private setBookData(book:BookType){
         const newState = Object.assign(this.state,{
-            category:category,
+            book:book,
         })
         this.setState(newState);
     }
@@ -97,7 +97,7 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
             <Card>
                 <Card.Body>
                     <Card.Title>
-                        <FontAwesomeIcon icon={ faListAlt }/> {this.state.category?.name}
+                        <FontAwesomeIcon icon={ faListAlt }/> {this.state.book?.title}
                     </Card.Title>
                     {this.printOptionalMessage()}
 
@@ -133,7 +133,7 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
         }));
     }
     private applyFilters(){
-        this.getCategoryData();
+        this.getBookData();
     }
 
     private printFilters(){
@@ -177,11 +177,11 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
     }
 
     private showBooks(){
-        if(this.state.books?.length ===0){
-            return(
-                <div>There are no book to show!</div>
-            );
-        }
+        // if(this.state.books?.length ===0){
+        //     return(
+        //         <div>There are no book to show!</div>
+        //     );
+        // }
         return(
             <Row>
                 {this.state.books?.map(this.singleBook)}
@@ -195,18 +195,18 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
     }
 
     componentDidMount(){
-        this.getCategoryData();
+        this.getBookData();
     }
 
-    componentDidUpdate(oldProperties: CategoryPageProperites){
+    componentDidUpdate(oldProperties: BookPageProperites){
         if(oldProperties.match.params.id === this.props.match.params.id){
             return;
         }
-        this.getCategoryData();
+        this.getBookData();
     }
 
-    getCategoryData(){
-        api('api/category/'+this.props.match.params.id,'get',{},"librarian"&&"student")
+    getBookData(){
+        api('api/book/'+this.props.match.params.id,'get',{},"librarian"&&"student")
         .then((res: ApiResponse) =>{
             if(res.status ==="login"){
                 this.setLogginState(false);
@@ -222,11 +222,11 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
 
             }
 
-            const categoryData: CategoryType = {
-                categoryId: res.data.categoryId,
-                name: res.data.name,
+            const bookData: BookType = {
+                bookId: res.data.bookId,
+                title: res.data.title,
             };
-            this.setCategoryData(categoryData);
+            this.setBookData(bookData);
 
         });
 
@@ -236,7 +236,7 @@ export default class CategoryPage extends React.Component<CategoryPageProperites
 
         api('api/book/search','post',{
             keywords: this.state.filters?.keywords,
-            categoryId: Number(this.props.match.params.id),
+            bookId: Number(this.props.match.params.id),
             
             orderBy: orderBy,
             orderDirection: orderDirection,

@@ -105,7 +105,7 @@ export default class StudentLoginPage extends React.Component {
                     <Card>
                         <Card.Body>
                             <Card.Title>
-                                <FontAwesomeIcon icon={ faSignInAlt } /> User Login
+                                <FontAwesomeIcon icon={ faSignInAlt } /> Student Login
                             </Card.Title>
                             <Form>
                                 <Form.Group>

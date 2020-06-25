@@ -74,6 +74,7 @@ class LibrarianDashboard extends React.Component {
                         <li><Link to="/librarian/dashboard/author">Author</Link></li>
                         <li><Link to="/librarian/dashboard/book">Book</Link></li>
                         <li><Link to="/librarian/dashboard/loan">Loan</Link></li>
+                        <li><Link to="/librarian/dashboard/reservation">Reservations</Link></li>
 
                     </ul>
                 </Card.Body>

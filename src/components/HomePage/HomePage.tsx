@@ -87,7 +87,7 @@ class HomePage extends React.Component {
                 <Card>
                     <Card.Body>
                         <Card.Title>
-                            <FontAwesomeIcon icon={ faListAlt } /> Top level categories
+                            <FontAwesomeIcon icon={ faListAlt } /> Categories
                         </Card.Title>
 
                         <Row>
@@ -107,6 +107,7 @@ class HomePage extends React.Component {
                         <Card.Title as="p">
                             { category.name }
                         </Card.Title>
+                        
                         <Link to={ `/category/${ category.categoryId }` }
                               className="btn btn-primary btn-block btn-sm">
                             Open category
