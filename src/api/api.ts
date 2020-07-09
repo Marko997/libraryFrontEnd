@@ -1,5 +1,3 @@
-
-
 import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
 import { ApiConfig } from '../config/api.config';
 
@@ -150,7 +148,7 @@ export function getIdentity(role: 'student' | 'librarian'): string {
 }
 
 function getRefreshToken(role: 'student' | 'librarian'): string {
-    const token = localStorage.getItem('api_refresh_token' + role);
+    const token = localStorage.getItem('api_token' + role);
     return token + '';
 }
 

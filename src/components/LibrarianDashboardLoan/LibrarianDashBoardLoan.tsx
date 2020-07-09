@@ -111,7 +111,7 @@ class LibrarianDashboardLoan extends React.Component {
     })));
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this.getLoans();
   }
 

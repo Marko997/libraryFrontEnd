@@ -70,7 +70,7 @@ export default class SingleBookPreview  extends React.Component<SingleBookPrevie
       }
       
     
-      componentWillMount(){
+      componentDidMount(){
         this.getReservations();
       }
     

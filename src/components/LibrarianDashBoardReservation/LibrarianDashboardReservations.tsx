@@ -94,7 +94,7 @@ class LibrarianDashboardReservation extends React.Component {
     })));
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this.getReservations();
   }
 
@@ -173,7 +173,7 @@ class LibrarianDashboardReservation extends React.Component {
                           <tr>
                             <td className="text-right">{reservation.reservationId}</td>
                             <td>{reservation.studentId}</td>
-                            <td>{reservation.book}</td>
+                            <td>{reservation.book?.title}</td>
                             <td>{reservation.status}</td>
 
                             <td className="text-center">
